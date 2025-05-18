@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contribute to TextArena</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #051f20;
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background-color: white;
+            animation: lineExpand 2s forwards;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .tab-button {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 0.75rem 1.5rem;
+            margin: 0 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+        
+        .tab-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .tab-button.active {
+            background-color: white;
+            color: #051f20;
+        }
+        
+        .content {
+            flex: 1;
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: slideUp 0.5s ease-in-out;
+        }
+        
+        h2 {
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            transform: scaleX(0);
+            transform-origin: left;
+            animation: scaleIn 1s forwards 0.5s;
+        }
+        
+        p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        /* Restored InteractiveHoverButton styles */
+        .btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: #051f20;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: #1a3c3e;
+        }
+        
+        .btn .btn-content {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn .dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            background-color: #3b82f6;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover .dot {
+            transform: scale(100.8);
+        }
+        
+        .btn .text {
+            display: inline-block;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .btn:hover .text {
+            transform: translateX(3rem);
+            opacity: 0;
+        }
+        
+        .btn .hover-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transform: translateX(3rem);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            color: white;
+            background-color: #3b82f6;
+        }
+        
+        .btn:hover .hover-content {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .btn .hover-content::after {
+            content: '→';
+            font-size: 1rem;
+        }
+        
+        /* Sponsor card styles */
+        .card {
+            width: 190px;
+            height: 254px;
+            background: #051f20;
+            position: relative;
+            display: flex;
+            place-content: center;
+            place-items: center;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+        
+        .card img {
+            z-index: 1;
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            width: 100px;
+            background-image: linear-gradient(180deg, white, #051f20);
+            height: 130%;
+            animation: rotBGimg 3s linear infinite;
+            transition: all 0.2s linear;
+        }
+        
+        @keyframes rotBGimg {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .card::after {
+            content: '';
+            position: absolute;
+            background: #051f20;
+            inset: 5px;
+            border-radius: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.05);
+            color: white;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .sponsor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+            justify-items: center;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes lineExpand {
+            to { width: 80%; }
+        }
+        
+        @keyframes scaleIn {
+            to { transform: scaleX(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Contribute to TextArena</h1>
+        </header>
+        
+        <nav>
+            <button class="tab-button active" onclick="openTab('game-enhancements')">Game Enhancements</button>
+            <button class="tab-button" onclick="openTab('model-registration')">Model Registration</button>
+            <button class="tab-button" onclick="openTab('sponsor-info')">Sponsor Info</button>
+        </nav>
+        
+        <div class="content">
+            <!-- Game Enhancements Tab -->
+            <div id="game-enhancements" class="tab-content active">
+                <h2>Game Enhancements</h2>
+                <p>Help us improve TextArena with your creative ideas and technical contributions. Whether you have an idea for a totally new game to test a soft-skill we haven't tested previously, or would like to update our game readmes if found to be unclear or confusing.</p>
+                
+                <div class="form-group">
+                    <label for="game-suggestion">Game Suggestion</label>
+                    <textarea id="game-suggestion" placeholder="Describe your game idea or enhancement..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contact-email">Your Email</label>
+                    <input type="email" id="contact-email" placeholder="example@textarena.example">
+                </div>
+                
+                <button class="btn" onclick="submitSuggestion()">
+                    <div class="btn-content">
+                        <div class="dot"></div>
+                        <span class="text">Submit Suggestion</span>
+                    </div>
+                    <div class="hover-content">Submit Suggestion</div>
+                </button>
+                
+                <a href="https://github.com/TextArena" class="btn" target="_blank">
+                    <div class="btn-content">
+                        <div class="dot"></div>
+                        <span class="text">Contribute on GitHub</span>
+                    </div>
+                    <div class="hover-content">Contribute on GitHub</div>
+                </a>
+            </div>
+            
+            <!-- Model Registration Tab -->
+            <div id="model-registration" class="tab-content">
+                <h2>Model Registration</h2>
+                <p>Register your AI models with TextArena to expand our ecosystem and enable new possibilities for interactive text experiences. Registered models can participate in our games, receive updates, and be featured in our showcase. If you are a organization developing a LLM and would like to benchmark your model's soft skills, please reach out to us through the sponsors tab. </p>
+                
+                <p>Benefits of registering your model:</p>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                    <li>Integration with the TextArena platform</li>
+                    <li>Performance benchmarking against other models</li>
+                    <li>Community recognition and visibility</li>
+                    <li>Model Access to All 57 Environments</li>
+                  
+                </ul>
+                
+                <a href="https://www.textarena.ai/docs/register-model" class="btn">
+                    <div class="btn-content">
+                        <div class="dot"></div>
+                        <span class="text">Register Your Model</span>
+                    </div>
+                    <div class="hover-content">Register Your Model</div>
+                </a>
+                
+                <p style="margin-top: 2rem; font-style: italic;">For questions about the registration process or platform compatibility, please contact our support team at guertlerlo@cfar.a-star.edu.sg</p>
+            </div>
+            
+            <!-- Sponsor Info Tab -->
+            <div id="sponsor-info" class="tab-content">
+                <h2>Sponsor Information</h2>
+                <p>Join our growing lost of sponsors to support the development of TextArena.ai, a platform to benchmark LLM soft-skills through text-based games.</p>
+                
+                <h3 style="margin: 2rem 0 1rem;">You'll be in Good Company</h3>
+                
+                <div class="sponsor-grid">
+                    <div class="card">
+                        <img src="https://boomi.com/wp-content/uploads/Solutions-By-Applications-AWS-Hero-Image-BL.png" alt="AWS Logo">
+                    </div>
+                    <div class="card">
+                        <img src="https://registry.npmmirror.com/@lobehub/icons-static-png/1.46.0/files/dark/anthropic-text.png" alt="Anthropic Logo">
+                    </div>
+                    <div class="card">
+                        <img src="https://registry.npmmirror.com/@lobehub/icons-static-png/1.46.0/files/dark/openrouter.png" alt="OpenRouter Logo">
+                    </div>
+                </div>
+                
+                <h3 style="margin: 2rem 0 1rem;">Benefits of Sponsorship</h3>
+                <p>By sponsoring TextArena, you'll gain brand visibility within our growing community of AI enthusiasts, developers, and gamers. Sponsors are placed always on our website, gaining visibility to thousands of individuals who visit TextArena. </p>
+                
+                <p>Our sponsors also have helped us to host hackathons, where we have given out prizes valued at over a total of $100,000. Sponsors not only receive placement and mention at the hackathon, but are able to collaborate with us for special hackathon events or categories as well!</p>
+                
+                <a href="mailto:guertlerlo@cfar.a-star.edu.sg" class="btn">
+                    <div class="btn-content">
+                        <div class="dot"></div>
+                        <span class="text">Contact Our Sponsorship Team</span>
+                    </div>
+                    <div class="hover-content">Contact Our Sponsorship Team</div>
+                </a>
+            </div>
+        </div>
+        
+    </div>
+    
+    <script>
+        function openTab(tabId) {
+            // Hide all tabs
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show the selected tab
+            document.getElementById(tabId).classList.add('active');
+            
+            // Add active class to the clicked button
+            event.currentTarget.classList.add('active');
+        }
+        
+        function submitSuggestion() {
+            const suggestion = document.getElementById('game-suggestion').value;
+            const email = document.getElementById('contact-email').value;
+            
+            if (suggestion.trim() === '' || email.trim() === '') {
+                alert('Please fill out all fields');
+                return;
+            }
+            
+            alert('Thank you for your suggestion! We will review it shortly.');
+            document.getElementById('game-suggestion').value = '';
+            document.getElementById('contact-email').value = '';
+        }
+    </script>
+</body>
+</html>
